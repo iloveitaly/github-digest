@@ -1,11 +1,9 @@
-import os
 import requests
 from datetime import datetime, timedelta
 from collections import defaultdict
 
 
-def get_github_notifications(since="1w", repo_ids=None):
-    token = os.getenv("GITHUB_TOKEN")
+def get_github_notifications(token, since="1w", repo_ids=None):
     since_date = (
         datetime.utcnow() - timedelta(weeks=1 if since == "1w" else int(since[:-1]))
     ).isoformat()
@@ -47,11 +45,27 @@ def format_notifications(grouped_notifications):
     return markdown_text
 
 
-# Usage
-target_project_ids = os.getenv("TARGET_PROJECT_IDS")
-if target_project_ids:
-    target_project_ids = [int(id) for id in target_project_ids.split(",")]
-notifications = get_github_notifications(repo_ids=target_project_ids)
-grouped_notifications = group_notifications_by_repo(notifications)
-formatted_text = format_notifications(grouped_notifications)
-print(formatted_text)
+def mark_notifications_as_read(token, notifications):
+    headers = {"Authorization": f"token {token}"}
+    for notification in notifications:
+        notification_id = notification["id"]
+        url = f"https://api.github.com/notifications/threads/{notification_id}"
+        response = requests.patch(url, headers=headers)
+        if response.status_code != 205:
+            print(
+                f"Failed to mark notification {notification_id} as read. Status code: {response.status_code}"
+            )
+
+
+def main(github_token, target_project_ids, email_auth, email_to):
+    if target_project_ids:
+        target_project_ids = [int(id) for id in target_project_ids.split(",")]
+
+    notifications = get_github_notifications(github_token, repo_ids=target_project_ids)
+    grouped_notifications = group_notifications_by_repo(notifications)
+    formatted_text = format_notifications(grouped_notifications)
+
+    print(formatted_text)
+
+    # if email_auth:
+    #     send_email_digest(formatted_text, email_auth, email_to)
