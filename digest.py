@@ -1,16 +1,18 @@
-import requests
 import logging
-from datetime import datetime, timedelta
 from collections import defaultdict
+from datetime import datetime, timedelta
+
+import requests
+
+from github_digest.email import send_email_markdown
 
 logging.basicConfig(level=logging.INFO)
 
+logger = logging.getLogger(__name__)
 
-def get_github_notifications(token, since="1w", repo_ids=None):
-    since_date = (
-        datetime.utcnow() - timedelta(weeks=1 if since == "1w" else int(since[:-1]))
-    ).isoformat()
-    url = f"https://api.github.com/notifications?since={since_date}"
+
+def get_github_notifications(since_date: datetime, token: str, repo_ids=None):
+    url = f"https://api.github.com/notifications?since={since_date.isoformat()}"
     headers = {"Authorization": f"token {token}"}
     response = requests.get(url, headers=headers)
     notifications = response.json()
@@ -60,18 +62,29 @@ def mark_notifications_as_read(token, notifications):
             )
 
 
-def main(github_token, target_project_ids, email_auth, email_to):
+def main(
+    since_date: datetime, github_token: str, target_project_ids, email_auth, email_to
+):
     if target_project_ids:
         target_project_ids = [int(id) for id in target_project_ids.split(",")]
 
-    notifications = get_github_notifications(github_token, repo_ids=target_project_ids)
+    notifications = get_github_notifications(
+        since_date, github_token, repo_ids=target_project_ids
+    )
     grouped_notifications = group_notifications_by_repo(notifications)
     formatted_text = format_notifications(grouped_notifications)
 
     print(formatted_text)
 
-    # if email_auth:
-    #     send_email_digest(formatted_text, email_auth, email_to)
+    if email_auth:
+        subject_formatted = f"GitHub Digest {since_date.strftime('%m/%d/%Y')}-{datetime.now().strftime('%m/%d/%Y')}"
+
+        send_email_markdown(
+            markdown_content=formatted_text,
+            subject=subject_formatted,
+            email_auth=email_auth,
+            email_to=email_to,
+        )
 
 
 if __name__ == "__main__":
