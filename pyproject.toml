@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "github-digest"
+version = "0.1.0"
+description = ""
+authors = ["Michael Bianco <iloveitaly@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.31.0"
+click = "^8.1.7"
+markdown2 = "^2.4.13"
+
+
+[tool.poetry.group.dev.dependencies]
+isort = "^5.13.2"
+black = "^24.3.0"
+pyright = "^1.1.354"
+pylint = "^3.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
