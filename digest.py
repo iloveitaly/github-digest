@@ -1,6 +1,9 @@
 import requests
+import logging
 from datetime import datetime, timedelta
 from collections import defaultdict
+
+logging.basicConfig(level=logging.INFO)
 
 
 def get_github_notifications(token, since="1w", repo_ids=None):
@@ -52,7 +55,7 @@ def mark_notifications_as_read(token, notifications):
         url = f"https://api.github.com/notifications/threads/{notification_id}"
         response = requests.patch(url, headers=headers)
         if response.status_code != 205:
-            print(
+            logging.error(
                 f"Failed to mark notification {notification_id} as read. Status code: {response.status_code}"
             )
 
@@ -69,3 +72,7 @@ def main(github_token, target_project_ids, email_auth, email_to):
 
     # if email_auth:
     #     send_email_digest(formatted_text, email_auth, email_to)
+
+
+if __name__ == "__main__":
+    main()
