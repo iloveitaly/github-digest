@@ -21,12 +21,37 @@ def get_github_notifications(since_date: datetime, token: str, repo_ids=None):
     return notifications
 
 
-def group_notifications_by_repo(notifications):
-    grouped = defaultdict(list)
+def enhance_pr(notification, token):
+    pr_url = notification["subject"]["url"]
+    headers = {"Authorization": f"token {token}"}
+    response = requests.get(pr_url, headers=headers)
+    response.raise_for_status()  # Raise exception if the request failed
+    pr_detail = response.json()
+    # Merge the PR detail with the existing notification data
+    enhanced_notification = {**notification, "pr_detail": pr_detail}
+    return enhanced_notification
+
+
+def group_notifications_by_repo(notifications, author, token):
+    grouped = {
+        "issues": defaultdict(list),
+        "prs": defaultdict(list),
+    }
+
     for notification in notifications:
         repo_name = notification["repository"]["full_name"]
-        grouped[repo_name].append(notification)
-    return dict(grouped)
+        if notification["subject"]["type"] == "Issue":
+            grouped["issues"][repo_name].append(notification)
+        elif notification["subject"]["type"] == "PullRequest":
+            notification = enhance_pr(notification, token)
+
+            if notification["pr_detail"]["user"]["login"] == author:
+                grouped["prs"][repo_name].append(notification)
+            else:
+                # TODO maybe have a separate category for comments on PRs?
+                grouped["issues"][repo_name].append(notification)
+
+    return grouped
 
 
 def format_notifications(grouped_notifications):
@@ -50,6 +75,7 @@ def format_notifications(grouped_notifications):
     return markdown_text
 
 
+# TODO integrate as an optional flag
 def mark_notifications_as_read(token, notifications):
     headers = {"Authorization": f"token {token}"}
     for notification in notifications:
@@ -62,6 +88,14 @@ def mark_notifications_as_read(token, notifications):
             )
 
 
+def get_github_user(token: str):
+    url = "https://api.github.com/user"
+    headers = {"Authorization": f"token {token}"}
+    response = requests.get(url, headers=headers)
+    user_data = response.json()
+    return user_data.get("login", None)
+
+
 def main(
     since_date: datetime, github_token: str, target_project_ids, email_auth, email_to
 ):
@@ -71,21 +105,20 @@ def main(
     notifications = get_github_notifications(
         since_date, github_token, repo_ids=target_project_ids
     )
-    grouped_notifications = group_notifications_by_repo(notifications)
+    author = get_github_user(github_token)
+    grouped_notifications = group_notifications_by_repo(
+        notifications, author, github_token
+    )
     formatted_text = format_notifications(grouped_notifications)
 
     print(formatted_text)
 
-    if email_auth:
-        subject_formatted = f"GitHub Digest {since_date.strftime('%m/%d/%Y')}-{datetime.now().strftime('%m/%d/%Y')}"
+    # if email_auth:
+    #     subject_formatted = f"GitHub Digest {since_date.strftime('%m/%d/%Y')}-{datetime.now().strftime('%m/%d/%Y')}"
 
-        send_email_markdown(
-            markdown_content=formatted_text,
-            subject=subject_formatted,
-            email_auth=email_auth,
-            email_to=email_to,
-        )
-
-
-if __name__ == "__main__":
-    main()
+    #     send_email_markdown(
+    #         markdown_content=formatted_text,
+    #         subject=subject_formatted,
+    #         email_auth=email_auth,
+    #         email_to=email_to,
+    #     )

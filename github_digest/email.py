@@ -13,7 +13,6 @@ logger = logging.getLogger(__name__)
 def send_email_markdown(*, markdown_content, subject, email_to, email_auth):
     parsed_url = urlparse(email_auth)
     html_content = markdown2.markdown(markdown_content)
-    breakpoint()
 
     msg = MIMEMultipart()
     msg["From"] = os.environ.get("EMAIL_FROM", parsed_url.username)
@@ -27,7 +26,6 @@ def send_email_markdown(*, markdown_content, subject, email_to, email_auth):
         len(markdown_content),
     )
 
-    # TODO any sane HTML styling we can setup?
     msg.attach(MIMEText(html_content, "html"))
 
     with smtplib.SMTP_SSL(parsed_url.hostname, parsed_url.port) as server:
