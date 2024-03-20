@@ -1,8 +1,9 @@
 [tool.poetry]
 name = "github-digest"
 version = "0.1.0"
-description = ""
-authors = ["Michael Bianco <iloveitaly@gmail.com>"]
+description = "Create an email digest of activity tied to your GitHub account."
+authors = ["Michael Bianco <mike@mikebian.co>"]
+keywords = ["github", "email", "digest"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
