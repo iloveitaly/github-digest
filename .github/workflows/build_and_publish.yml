@@ -41,7 +41,7 @@ jobs:
           # context: .
           # file: ./Dockerfile
           # platforms: linux/amd64
-          push: false
+          push: true
           tags: |
             ${{ env.IMAGE_NAME }}:${{ env.DATE_STAMP }}
             ${{ env.IMAGE_NAME }}:latest
