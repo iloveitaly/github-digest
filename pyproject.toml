@@ -18,7 +18,7 @@ pygithub = "^2.3.0"
 isort = "^5.13.2"
 black = "^24.4.2"
 pyright = "^1.1.366"
-pylint = "^3.2.3"
+pylint = "^3.2.5"
 
 [build-system]
 requires = ["poetry-core"]
