@@ -17,7 +17,7 @@ pygithub = "^2.3.0"
 [tool.poetry.group.dev.dependencies]
 isort = "^5.13.2"
 black = "^24.4.2"
-pyright = "^1.1.370"
+pyright = "^1.1.374"
 pylint = "^3.2.6"
 
 [build-system]
