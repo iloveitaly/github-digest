@@ -10,7 +10,7 @@ readme = "README.md"
 python = "^3.11"
 requests = "^2.32.3"
 click = "^8.1.7"
-markdown2 = "^2.4.13"
+markdown2 = "^2.5.0"
 pygithub = "^2.3.0"
 
 
