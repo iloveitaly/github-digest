@@ -12,12 +12,13 @@ requests = "^2.32.3"
 click = "^8.1.7"
 markdown2 = "^2.5.0"
 pygithub = "^2.3.0"
+dinghy = "^1.3.2"
 
 
 [tool.poetry.group.dev.dependencies]
 isort = "^5.13.2"
-black = "^24.4.2"
-pyright = "^1.1.374"
+black = "^24.8.0"
+pyright = "^1.1.375"
 pylint = "^3.2.6"
 
 [build-system]
