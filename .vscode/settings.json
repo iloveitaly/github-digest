@@ -4,6 +4,8 @@
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit"
-    }
-  }
+    },
+  },
+  "python.flake8.enabled" : false,
+  "pylint.enabled": true
 }
