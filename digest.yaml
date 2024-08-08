@@ -21,7 +21,7 @@ digests:
   #     - search: involves:iloveitaly -author:dependabot[bot]
   #       title: Comments on Owned Projects
 
-  - digest: digest.html
+  - digest: data/digest.html
     since: 12 weeks
     # bot users are automatically removed
     items:

@@ -1,18 +1,20 @@
 import logging
 import os
 import smtplib
+import ssl
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from urllib.parse import urlparse
 
-import markdown2
+import backoff
+import css_inline
 
 logger = logging.getLogger(__name__)
 
 
-def send_email_markdown(*, markdown_content, subject, email_to, email_auth):
+@backoff.on_exception(backoff.expo, ssl.SSLEOFError, max_tries=5)
+def send_email(*, html_content, subject, email_to, email_auth):
     parsed_url = urlparse(email_auth)
-    html_content = markdown2.markdown(markdown_content)
 
     msg = MIMEMultipart()
     msg["From"] = os.environ.get("EMAIL_FROM", parsed_url.username)
@@ -23,10 +25,12 @@ def send_email_markdown(*, markdown_content, subject, email_to, email_auth):
         "creating email for %s, from %s, content length %i",
         email_to,
         parsed_url.username,
-        len(markdown_content),
     )
 
-    msg.attach(MIMEText(html_content, "html"))
+    inliner = css_inline.CSSInliner(keep_style_tags=True)
+    inlined_content = inliner.inline(html_content)
+
+    msg.attach(MIMEText(inlined_content, "html"))
 
     with smtplib.SMTP_SSL(parsed_url.hostname, parsed_url.port) as server:
         logger.info("Sending email to %s", email_to)
