@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+{# The template for the digest.html output file. -#}
+
+{%- macro page_title() -%}
+  {{ title }}
+  {% if title and since %} — {% endif %}
+  {% if since %}Activity since {{ since|datetime("%Y-%m-%d") }}{% endif %}
+{%- endmacro -%}
+
+{%- macro octicon_url(name, size=16) -%}
+  {#- Octicons: https://github.com/primer/octicons/tree/main/icons -#}
+  {#- also: https://primer.style/octicons/ -#}
+  https://raw.githubusercontent.com/primer/octicons/main/icons/{{ name }}-{{ size }}.svg
+{%- endmacro -%}
+
+{%- macro octicon_bg(name, size=16, color="") -%}
+  background-image: url({{ octicon_url(name, size) }});
+  {# sepia: #aa9a7c -#}
+  {% if color == "red" -%}
+    filter: invert(1) brightness(.5) sepia(1) hue-rotate(316deg) saturate(6) brightness(.8);
+  {% elif color == "green" -%}
+    {# open color: #1a7f37 -#}
+    filter: invert(1) brightness(.5) sepia(1) hue-rotate(98deg) saturate(8) brightness(0.5);
+  {% elif color == "purple" -%}
+    {# merged color: #8250df -#}
+    filter: invert(1) brightness(.5) sepia(1) hue-rotate(220deg) saturate(8) brightness(.65);
+  {% elif color == "light gray" -%}
+    filter: invert(1) brightness(.5) sepia(1) hue-rotate(172deg) saturate(0.43) brightness(1.25);
+  {% elif color == "gray" -%}
+    {# draft color: #57606a -#}
+    filter: invert(1) brightness(.5) sepia(1) hue-rotate(172deg) saturate(0.43) brightness(0.65);
+  {% endif -%}
+{%- endmacro -%}
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>{{ page_title() }}</title>
+  <link rel="icon" href="{{ octicon_url("comment-discussion", 24) }}" type="image/svg+xml">
+  <style>
+  body {
+    font-family: sans-serif;
+    max-width: 60em;
+    margin: auto;
+    line-height: 1.3;
+    color: black;
+  }
+  ul {
+    padding-left: 0;
+    list-style-type: none;
+  }
+  li {
+    margin: 0;
+  }
+  li p {
+    margin: 0;
+  }
+  ul.repos > li {
+    margin-top: 2em;
+  }
+  ul.entries > li {
+    margin-top: 1em;
+  }
+  ul.entries > li > p {
+    margin-left: 4.2em;
+  }
+  ul.entries > li > p:first-child {
+    text-indent: -2.1em;   /* not sure why it's half the 4.2em indent */
+  }
+  ul.comments > li > p {
+    margin-left: 4.2em;
+    padding-left: 1.6em;
+    text-indent: -1.6em;
+  }
+  ul.thread_comment ul.thread_comment {
+    padding-left: 1.6em;
+  }
+  ul.thread_comment > li > p {
+    padding-left: 7.3em;
+    text-indent: -1.6em;
+  }
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  a:hover {
+    text-decoration: none;
+    color: #0969da;
+  }
+  .footer a:hover {
+    text-decoration: underline;
+  }
+  .reponame {
+    font-weight: bold;
+    font-size: 150%;
+    margin-right: .5em;
+  }
+  .label {
+    padding: .2em .5em .1em .5em;
+    border-radius: 2em;
+    font-size: 75%;
+    opacity: .85;
+    vertical-align: middle;
+    white-space: nowrap;
+    /* GitHub label style computations, lifted from github.com */
+    border: 1px solid transparent;
+    --perceived-lightness: calc( ((var(--label-r) * 0.2126) + (var(--label-g) * 0.7152) + (var(--label-b) * 0.0722)) / 255 );
+    --lightness-switch: max(0, min(calc((var(--perceived-lightness) - var(--lightness-threshold)) * -1000), 1));
+    --lightness-threshold: 0.453;
+    --border-threshold: 0.96;
+    --border-alpha: max(0, min(calc((var(--perceived-lightness) - var(--border-threshold)) * 100), 1));
+    background: rgb(var(--label-r), var(--label-g), var(--label-b));
+    color: hsl(0, 0%, calc(var(--lightness-switch) * 100%));
+    border-color: hsla(var(--label-h), calc(var(--label-s) * 1%), calc((var(--label-l) - 25) * 1%), var(--border-alpha));
+  }
+  .homerepo {
+    color: #888;
+  }
+  .boring > p {
+    color: #888;
+  }
+  .footer {
+    color: #888;
+    font-style: italic;
+    margin-top: 3em;
+  }
+  .octicons {
+    display: inline-block;
+    padding-right: .3em;
+  }
+  .octicon {
+    width: 1.3em;
+    height: 1em;
+    display: inline-block;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    padding-bottom: .2em;
+  }
+  .octicon.star {
+    {{ octicon_bg("star", color="green") }}
+  }
+  .octicon.x {
+    {{ octicon_bg("x") }}
+  }
+  .octicon.check {
+    {{ octicon_bg("check") }}
+  }
+  .octicon.checkcircle {
+    {{ octicon_bg("check-circle", color="green") }}
+  }
+  .octicon.comment.resolved {
+    {{ octicon_bg("tasklist", color="green") }}
+  }
+  .octicon.comment {
+    {{ octicon_bg("comment") }}
+  }
+  .octicon.eye {
+    {{ octicon_bg("eye") }}
+  }
+  .octicon.filediff {
+    {{ octicon_bg("file-diff", color="red") }}
+  }
+  .octicon.dash {
+    {{ octicon_bg("dash", color="light gray") }}
+  }
+  .octicon.pull {
+    {{ octicon_bg("git-pull-request", color="green") }}
+  }
+  .octicon.pull.draft {
+    {{ octicon_bg("git-pull-request-draft", color="gray") }}
+  }
+  .octicon.pull.closed {
+    {{ octicon_bg("git-pull-request-closed", color="red") }}
+  }
+  .octicon.pull.merged {
+    {{ octicon_bg("git-merge", color="purple") }}
+  }
+  .octicon.issue {
+    {{ octicon_bg("issue-opened", color="green") }}
+  }
+  .octicon.issue.closed {
+    {{ octicon_bg("issue-closed", color="purple") }}
+  }
+  .octicon.issue.wontdo {
+    {{ octicon_bg("skip", color="gray") }}
+  }
+  .octicon.tag {
+    {{ octicon_bg("tag", color="gray") }}
+  }
+  .octicon.commit {
+    {{ octicon_bg("git-commit", color="gray") }}
+  }
+  .octicon.release {
+    {{ octicon_bg("package", color="green") }}
+  }
+  </style>
+</head>
+<body>
+
+<h1>{{ page_title() }}</h1>
+
+<ul class="repos">
+  {% for container in results -%}
+    <li>
+      <p><span class="reponame"><a href="{{ container.url }}">
+        {{- container.title|trim -}}
+      </a></span>
+      {{ container.container_kind }} {{ container.kind }}
+      </p>
+      {% if container.entries %}
+        <ul class="entries">
+          {% for entry in container.entries -%}
+            <li class="{{ entry.state|lower }}">
+
+              <p><a href="{{ entry.url }}">{# -#}
+                <span class="octicons" title="
+                  {%- if entry.dinghy_reasonCreated %}newly created; {% endif -%}
+                  {%- if entry.dinghy_reasonMerged -%}newly merged; {% elif entry.dinghy_reasonClosed %}newly closed; {% endif -%}
+                  {%- if entry.isDraft %}draft {% endif -%}
+                  {%- if entry.merged %}merged {% elif entry.closed %}closed {% endif -%}
+                  {%- if entry.__typename == "PullRequest" %}pull request{% endif -%}
+                  {%- if entry.__typename == "Issue" %}issue{% endif -%}
+                  {%- if entry.__typename == "Release" %}release{% endif -%}
+                ">{# -#}
+
+                  {%- if entry.dinghy_reasonCreated -%}
+                    <span class="octicon star"></span>
+                  {%- else -%}
+                    <span class="octicon dash"></span>
+                  {%- endif -%}
+                  {% if entry.dinghy_reasonMerged -%}
+                    <span class="octicon check"></span>
+                  {%- elif entry.dinghy_reasonClosed -%}
+                    <span class="octicon {% if entry.__typename == "PullRequest" %}x{% else %}check{% endif %}"></span>
+                  {%- else -%}
+                    <span class="octicon dash"></span>
+                  {%- endif -%}
+
+                  <span class="octicon
+                    {%- if entry.isDraft %} draft{% endif -%}
+                    {%- if entry.merged %} merged{% elif entry.stateReason == "NOT_PLANNED" %} wontdo{% elif entry.closed %} closed{% endif -%}
+                    {%- if entry.__typename == "PullRequest" %} pull{% endif -%}
+                    {%- if entry.__typename == "Issue" %} issue{% endif -%}
+                    {%- if entry.__typename == "Release" %} release{% endif -%}
+                  "></span>{# -#}
+                </span>{# -#}
+
+                {%- if entry.__typename in ("PullRequest", "Issue") -%}
+                <b>{{entry.title|trim}}</b> #{{ entry.number }}{# -#}
+                {%- elif entry.__typename in ("Release",) -%}
+                <b>{{entry.name|trim}}</b>
+                <span class="octicon dash"></span>
+                <span class="octicon tag"></span>{{ entry.tagName }}
+                <span class="octicon commit"></span>{{ entry.tagCommit.abbreviatedOid }}
+                {%- endif -%}
+              </a>
+              [{{ entry.author.login }}]
+
+              {% if entry.labels -%}
+                {%- for label in entry.labels.nodes -%}
+                  <span class="label" style="{{label.color|label_color_css}}">{{ label.name }}</span>
+                {% endfor %}
+              {%- endif -%}
+
+              {% if entry.other_repo -%}
+                &nbsp;&nbsp; <span class="homerepo">{{ entry.repository.nameWithOwner }}</span>
+              {%- endif %}
+              </p>
+
+              {%- if entry.bodyText %}<p>{{ entry.bodyText|trim|truncate(120) }}</p>{% endif -%}
+              {%- if entry.description %}<p>{{ entry.description|trim|truncate(120) }}</p>{% endif -%}
+
+              {% if entry.dinghy_children -%}
+                <ul class="comments">
+                  {% for child in entry.dinghy_children recursive -%}
+                    <li{% if child.boring %} class="boring"{% endif %}>
+                      <p><a href="{{ child.url }}" title="{{ child.updatedAt|datetime() }}">
+                        {% if child.dinghy_review_state -%}
+                          {% if child.dinghy_review_state == "APPROVED" -%}
+                            <span class="octicon checkcircle" title="reviewed, approved"></span>
+                          {% elif child.dinghy_review_state == "CHANGES_REQUESTED" -%}
+                            <span class="octicon filediff" title="reviewed, changes requested"></span>
+                          {% else %}
+                            <span class="octicon eye" title="reviewed"></span>
+                          {% endif %}
+                        {% elif child.isResolved %}
+                          <span class="octicon comment resolved" title="resolved comment"></span>
+                        {% else %}
+                          <span class="octicon comment" title="comment"></span>
+                        {% endif %}
+                        <b>{{ child.author.login }}</b>{# -#}
+                      {%- if child.bodyText %}: {{ child.bodyText|trim|truncate(100) }}{% endif -%}
+                      </a></p>
+                      {% if child.dinghy_children %}
+                        <ul class="thread_comment">{{ loop(child.dinghy_children) }}</ul>
+                      {% endif %}
+                    </li>
+                  {% endfor -%}
+                </ul>
+              {% endif -%}
+
+            </li>
+          {% endfor -%}
+        </ul>
+      {% else %}
+        <p>Nothing happening</p>
+      {% endif %}
+    </li>
+  {% endfor -%}
+</ul>
+
+<p class="footer">
+  created at {{ now|datetime("%Y-%m-%d %H:%M") }} by
+  <a href="https://pypi.org/project/dinghy/{{ __version__ }}">
+    dinghy
+    {# keep the dinghy_version span on a line by itself for `make check_release` -#}
+    <span class="dinghy_version">{{ __version__ }}</span></a>.
+</p>
+</body>
+</html>
