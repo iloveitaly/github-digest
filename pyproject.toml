@@ -17,6 +17,9 @@ apscheduler = "^3.10.4"
 backoff = "^2.2.1"
 python-decouple-typed = "^3.11.0"
 css-inline = "^0.14.1"
+beautifulsoup4 = "^4.12.3"
+cairosvg = "^2.7.1"
+patchy = "^2.8.0"
 
 
 [tool.poetry.group.dev.dependencies]
