@@ -13,33 +13,8 @@
   https://raw.githubusercontent.com/primer/octicons/main/icons/{{ name }}-{{ size }}.svg
 {%- endmacro -%}
 
-{%- macro octicon_img(name, size=16, color="") -%}
-  <img 
-    {# src="{{ octicon_url(name, size) }}"  #}
-    src="{{ inline_svg(octicon_url(name, size)) }}" 
-    alt="{{ name }}" 
-    width="{{ size }}" 
-    height="{{ size }}" 
-    style="
-      display: inline-block; 
-      vertical-align: middle;
-      {% if color == 'red' -%}
-        filter: invert(1) brightness(.5) sepia(1) hue-rotate(316deg) saturate(6) brightness(.8);
-      {% elif color == 'green' -%}
-        filter: invert(1) brightness(.5) sepia(1) hue-rotate(98deg) saturate(8) brightness(0.5);
-      {% elif color == 'purple' -%}
-        filter: invert(1) brightness(.5) sepia(1) hue-rotate(220deg) saturate(8) brightness(.65);
-      {% elif color == 'light gray' -%}
-        filter: invert(1) brightness(.5) sepia(1) hue-rotate(172deg) saturate(0.43) brightness(1.25);
-      {% elif color == 'gray' -%}
-        filter: invert(1) brightness(.5) sepia(1) hue-rotate(172deg) saturate(0.43) brightness(0.65);
-      {% endif -%}
-    "
-  />
-{%- endmacro -%}
-
 {%- macro octicon_bg(name, size=16, color="") -%}
-  background:no-repeat url({{ inline_svg(octicon_url(name, size)) }});
+  background:url({{ inline_svg(octicon_url(name, size)) }}) no-repeat top left/{{size}}px {{size}}px;
   {# sepia: #aa9a7c -#}
   {% if color == "red" -%}
     filter: invert(1) brightness(.5) sepia(1) hue-rotate(316deg) saturate(6) brightness(.8);
@@ -249,8 +224,7 @@
                 ">{# -#}
 
                   {%- if entry.dinghy_reasonCreated -%}
-                    {# <span class="octicon star"></span> #}
-                    {{ octicon_img("star") }}
+                    <span class="octicon star"></span>
                   {%- else -%}
                     <span class="octicon dash"></span>
                   {%- endif -%}
