@@ -30,6 +30,8 @@ def send_email(*, html_content, subject, email_to, email_auth):
     inliner = css_inline.CSSInliner(keep_style_tags=True)
     inlined_content = inliner.inline(html_content)
 
+    # (ROOT_DIRECTORY / "data/digest_inlined.html").write_text(inlined_content)
+
     msg.attach(MIMEText(inlined_content, "html"))
 
     with smtplib.SMTP_SSL(parsed_url.hostname, parsed_url.port) as server:

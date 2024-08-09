@@ -1,0 +1,23 @@
+digests:
+  - digest: data/digest.html
+    template: data/digest.html.j2
+    since: 16 weeks
+    # since: 1 day
+    # bot users are automatically removed
+    items:
+      - search: author:iloveitaly is:issue
+        title: My Issues
+
+      - search: author:iloveitaly is:pr
+        title: My PRs
+
+      - search: -author:iloveitaly org:iloveitaly
+        title: PRs & Issues on Projects
+      
+      # TODO maybe add resque? Other OS I care about?
+      
+
+defaults:
+  ignore_users:
+    - dependabot[bot]
+    # - iloveitaly

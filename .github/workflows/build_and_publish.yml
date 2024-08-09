@@ -6,15 +6,9 @@ on:
   pull_request:
     branches: [main, master]
 
-env:
-  IMAGE_NAME: ghcr.io/${{ github.repository }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    # structure here is roughly copied from:
-    # https://github.com/github/issue-metrics/blob/main/action.yml
 
     # really important for ensuring that the package inherits the permissions of the repo
     # https://stackoverflow.com/questions/77092191/use-github-to-change-visibility-of-ghcr-io-package
@@ -30,24 +24,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # create a unique tag for each build for debugging9
-      - name: Set Docker tag
-        id: date
-        run: echo "DATE_STAMP=$(date +%s)" > "$GITHUB_ENV"
-
       - name: Build and push Docker images
         uses: iloveitaly/github-action-nixpacks@main
         with:
-          # context: .
-          # file: ./Dockerfile
-          # platforms: linux/amd64
+          platforms: "linux/amd64,linux/arm64"
           push: true
-          tags: |
-            ${{ env.IMAGE_NAME }}:${{ env.DATE_STAMP }}
-            ${{ env.IMAGE_NAME }}:latest
-          # this label is required to link the image to the repo, but for discovery *and* for permissioning
-          labels: |
-            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
-          env: |
-            NIXPACKS_PYTHON_VERSION=3.11.7
-            NIXPACKS_POETRY_VERSION=1.8.2

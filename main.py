@@ -3,13 +3,14 @@ from datetime import datetime, timedelta
 
 from apscheduler.schedulers.background import BlockingScheduler
 from apscheduler.triggers.cron import CronTrigger
-from todoist_digest import main
+
+from github_digest import main
 
 last_synced = None
 
 
 def get_initial_start_date():
-    return (datetime.utcnow() - timedelta(days=3)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return datetime.utcnow() - timedelta(days=3)
 
 
 def job():
@@ -19,18 +20,16 @@ def job():
 
     main(
         last_synced,
-        os.environ.get("TARGET_USER"),
-        os.environ.get("TARGET_PROJECT"),
-        os.environ.get("EMAIL_AUTH"),
-        os.environ.get("EMAIL_TO"),
     )
 
-    last_synced = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+    last_synced = datetime.utcnow()
 
 
 def cron():
     global last_synced
     last_synced = get_initial_start_date()
+
+    job()
 
     schedule = os.environ.get("SCHEDULE", "0 6 * * *")
 

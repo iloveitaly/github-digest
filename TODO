@@ -1,0 +1,4 @@
+- [ ] template for digest yaml to pull user from current email_auth
+- [ ] digest
+  - [ ] how can exclude entries that were created by me? the ignore_users seems to be too broad
+  - [ ] does this include threads I'm subscribed to? https://github.com/orgs/community/discussions/6403
