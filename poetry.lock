@@ -716,6 +716,30 @@ wrapt = ">=1.10,<2"
 dev = ["PyTest", "PyTest-Cov", "bump2version (<1)", "sphinx (<2)", "tox"]
 
 [[package]]
+name = "deptry"
+version = "0.19.0"
+description = "A command line utility to check for unused, missing and transitive dependencies in a Python project."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "deptry-0.19.0-cp38-abi3-macosx_10_12_x86_64.whl", hash = "sha256:074bfb613c1789e7489c735159356a8e7f260b0cf85193c6cc5887abcdabe5cc"},
+    {file = "deptry-0.19.0-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:8fdfe2531fa773e5849b46d8d0ca851341aeeba3dc285b1a3f560a2a468676ba"},
+    {file = "deptry-0.19.0-cp38-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:248c34d78f83da111379a43e37c78d5e049661735e43ab5934307b2ba265431d"},
+    {file = "deptry-0.19.0-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:3b18c45b52c2822fd1186e73e22274ceec85384ed0616d0454ae874724ac0846"},
+    {file = "deptry-0.19.0-cp38-abi3-win_amd64.whl", hash = "sha256:79028cbc885ff8cd0a11fc0954bb0b552bf656fe6df73084df7014cbd902516c"},
+    {file = "deptry-0.19.0-pp310-pypy310_pp73-macosx_10_12_x86_64.whl", hash = "sha256:4fb158d0e4747e8dc21b2160f9a11540c01ede318cf558d702d485cb89119214"},
+    {file = "deptry-0.19.0-pp310-pypy310_pp73-macosx_11_0_arm64.whl", hash = "sha256:bd80e70a2b306732d9c35019480a32452c00f74cbbe81b4a9791917fceeb2a0d"},
+    {file = "deptry-0.19.0-pp310-pypy310_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:25f3b0e46b9936b3e9bb08aa9aa2f88a56d7d3bc14f0180844da4997670f21ab"},
+    {file = "deptry-0.19.0-pp310-pypy310_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:bbd13b8619d4fcfa0a06f752de5b92d552bdf71cfed41b2cf22cd9a16e28f4f2"},
+    {file = "deptry-0.19.0-pp310-pypy310_pp73-win_amd64.whl", hash = "sha256:fe61febc0ba979b20678d232daa4c6df31949f63d5dcaa5c363a5f1ffac9b887"},
+    {file = "deptry-0.19.0.tar.gz", hash = "sha256:df5899d63a4e607bc9b2a091483b8e07ea98e021f2872defb1fd44573ae8c9a7"},
+]
+
+[package.dependencies]
+click = ">=8.0.0,<9"
+colorama = {version = ">=0.4.6", markers = "sys_platform == \"win32\""}
+
+[[package]]
 name = "dill"
 version = "0.3.8"
 description = "serialize all of Python"
@@ -931,23 +955,6 @@ MarkupSafe = ">=2.0"
 
 [package.extras]
 i18n = ["Babel (>=2.7)"]
-
-[[package]]
-name = "markdown2"
-version = "2.5.0"
-description = "A fast and complete Python implementation of Markdown"
-optional = false
-python-versions = "<4,>=3.8"
-files = [
-    {file = "markdown2-2.5.0-py2.py3-none-any.whl", hash = "sha256:300d4429b620ebc974ef512339a9e08bc080473f95135a91f33906e24e8280c1"},
-    {file = "markdown2-2.5.0.tar.gz", hash = "sha256:9bff02911f8b617b61eb269c4c1a5f9b2087d7ff051604f66a61b63cab30adc2"},
-]
-
-[package.extras]
-all = ["latex2mathml", "pygments (>=2.7.3)", "wavedrom"]
-code-syntax-highlighting = ["pygments (>=2.7.3)"]
-latex = ["latex2mathml"]
-wavedrom = ["wavedrom"]
 
 [[package]]
 name = "markupsafe"
@@ -1824,4 +1831,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "924451f3d1f498ffed4ef93ab7c98235369aa3a190c6753ec3b67546958d8bc3"
+content-hash = "3e08dc50d2c1dcd442f653359702f8e32310e432e87d9d4c8825d4be43024096"
