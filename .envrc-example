@@ -1,0 +1,7 @@
+layout poetry
+
+export GITHUB_TOKEN=example_github_token
+export EMAIL_AUTH=example_email_auth
+
+export EMAIL_TO=example_to@example.com
+export EMAIL_FROM=example_from@example.com
