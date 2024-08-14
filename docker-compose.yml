@@ -7,9 +7,6 @@ services:
       - GITHUB_DIGEST_EMAIL_AUTH=smtp://resend:re_123@smtp.resend.com:123
       - GITHUB_DIGEST_EMAIL_TO=email@gmail.com
       - GITHUB_DIGEST_EMAIL_FROM=email@mikebian.co
-      - TARGET_USER=user-who-is-commenting@gmail.com
-      - TARGET_PROJECT=Assistant
-      - EMAIL_TO=user-to-receive-digest@gmail.com
       - SCHEDULE=0 7 * * *
       # the container will *not* assume the TZ of the host without this
       # make sure your host has this set
