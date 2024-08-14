@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from apscheduler.schedulers.background import BlockingScheduler
 from apscheduler.triggers.cron import CronTrigger
 
-from github_digest import main
+from github_digest import cli
 
 last_synced = None
 
@@ -18,18 +18,17 @@ def job():
 
     print(f"Running job with last_synced: {last_synced}")
 
-    main(
-        last_synced,
-    )
+    os.environ["GITHUB_DIGEST_SINCE"] = last_synced.strftime("%Y-%m-%d")
+
+    cli()
 
     last_synced = datetime.utcnow()
 
 
 def cron():
     global last_synced
-    last_synced = get_initial_start_date()
 
-    job()
+    last_synced = get_initial_start_date()
 
     schedule = os.environ.get("SCHEDULE", "0 6 * * *")
 

@@ -1,7 +1,7 @@
 digests:
   - digest: data/digest.html
     template: data/digest.html.j2
-    since: 16 weeks
+    # since: 16 weeks
     # since: 1 day
     # bot users are automatically removed
     items:

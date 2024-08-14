@@ -23,17 +23,26 @@ def extract_title(html_file_path) -> str | None:
     return title_tag.string.strip() if title_tag else None
 
 
-def main(since, email_to, email_auth):
+def main(since: datetime.datetime, email_to, email_from, email_auth):
     print("creating digest")
 
-    asyncio.run(make_digests_from_config(str(DIGEST_YAML)))
+    # the underlying digest library expects a relative date string
+    # this is parsed using a custom regex
+    relative_minutes = int((datetime.datetime.now() - since).total_seconds() / 60)
+    relative_minutes_formatted = f"{relative_minutes}m"
+
+    asyncio.run(
+        make_digests_from_config(str(DIGEST_YAML), since=relative_minutes_formatted)
+    )
 
     title = extract_title(DIGEST_TARGET)
+    title = f"GitHub {title}"
 
     send_email(
         html_content=DIGEST_TARGET.read_text(),
         subject=title,
         email_to=email_to,
+        email_from=email_from,
         email_auth=email_auth,
     )
 
@@ -51,6 +60,7 @@ def main(since, email_to, email_auth):
     help="Date to pull notifications since in MM/DD/YYYY format",
 )
 @click.option("--email-to", help="Who to send the digest to", required=True)
+@click.option("--email-from", help="Who to send the digest from")
 @click.option("--email-auth", help="Email authentication string", required=True)
-def cli(since, email_to, email_auth):
-    main(since, email_to, email_auth)
+def cli(since, email_to, email_from, email_auth):
+    main(since, email_to, email_from, email_auth)

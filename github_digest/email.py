@@ -13,11 +13,11 @@ logger = logging.getLogger(__name__)
 
 
 @backoff.on_exception(backoff.expo, ssl.SSLEOFError, max_tries=5)
-def send_email(*, html_content, subject, email_to, email_auth):
+def send_email(*, html_content, subject, email_to, email_from, email_auth):
     parsed_url = urlparse(email_auth)
 
     msg = MIMEMultipart()
-    msg["From"] = os.environ.get("EMAIL_FROM", parsed_url.username)
+    msg["From"] = email_from or parsed_url.username
     msg["To"] = email_to
     msg["Subject"] = subject
 
