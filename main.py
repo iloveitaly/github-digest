@@ -6,13 +6,22 @@ from apscheduler.triggers.cron import CronTrigger
 
 from github_digest import cli
 
-last_synced = None
+last_synced: datetime.datetime | None = None
 
 
 def get_initial_start_date():
-    return (datetime.datetime.now(datetime.UTC) - datetime.timedelta(days=3)).strftime(
-        "%Y-%m-%dT%H:%M:%SZ"
-    )
+    return datetime.datetime.now(datetime.UTC) - datetime.timedelta(days=3)
+
+
+def handle_click_exit(func):
+    def wrapper(*args, **kwargs):
+        try:
+            func(*args, **kwargs)
+        except SystemExit as e:
+            if e.code != 0:
+                raise
+
+    return wrapper
 
 
 def job():
@@ -22,9 +31,9 @@ def job():
 
     os.environ["GITHUB_DIGEST_SINCE"] = last_synced.strftime("%Y-%m-%d")
 
-    cli()
+    handle_click_exit(cli)()
 
-    last_synced = datetime.utcnow()
+    last_synced = datetime.datetime.now(datetime.UTC)
 
 
 def cron():
