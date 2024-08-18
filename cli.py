@@ -2,7 +2,6 @@ import os
 from datetime import datetime, timedelta, timezone
 
 import click
-
 from digest import main
 
 
@@ -21,31 +20,21 @@ def parse_date(ctx, param, value):
         raise click.BadParameter("Date must be in MM/DD/YYYY format")
 
 
-@click.command()
+@click.command(context_settings={"auto_envvar_prefix": "GITHUB_DIGEST"})
 @click.option(
     "--since",
     default=default_since,
     callback=parse_date,
     help="Date to pull notifications since in MM/DD/YYYY format",
 )
-@click.option("--github-token", default=os.getenv("GITHUB_TOKEN"), help="GitHub token")
+@click.option("--email-to", help="Email recipient(s)", required=True)
 @click.option(
-    "--target-project-ids",
-    default=os.getenv("TARGET_PROJECT_IDS"),
-    help="Target project IDs",
-)
-@click.option(
-    "--email-auth",
-    default=os.getenv("EMAIL_AUTH"),
-    help="Email authentication string",
-)
-@click.option(
-    "--email-to",
-    default=os.getenv("EMAIL_TO"),
+    "--email-from",
     help="Email recipient(s)",
 )
-def cli(since, github_token, target_project_ids, email_auth, email_to):
-    main(since, github_token, target_project_ids, email_auth, email_to)
+@click.option("--email-auth", help="Email authentication string", required=True)
+def cli(since, email_to, email_from, email_auth):
+    main(since, email_to, email_from, email_auth)
 
 
 if __name__ == "__main__":

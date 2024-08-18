@@ -1,10 +1,11 @@
-import os
 import datetime
+import os
 
 from apscheduler.schedulers.background import BlockingScheduler
 from apscheduler.triggers.cron import CronTrigger
 
 from github_digest import cli
+from github_digest.internet import wait_for_internet_connection
 
 last_synced: datetime.datetime | None = None
 
@@ -30,6 +31,8 @@ def job():
     print(f"Running job with last_synced: {last_synced}")
 
     os.environ["GITHUB_DIGEST_SINCE"] = last_synced.strftime("%Y-%m-%d")
+
+    wait_for_internet_connection()
 
     handle_click_exit(cli)()
 
