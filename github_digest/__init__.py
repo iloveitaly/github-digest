@@ -24,12 +24,12 @@ def extract_title(html_file_path) -> str | None:
 
 
 def main(since: datetime.datetime, email_to, email_from, email_auth):
-    print("creating digest")
-
     # the underlying digest library expects a relative date string
     # this is parsed using a custom regex
     relative_minutes = int((datetime.datetime.now() - since).total_seconds() / 60)
     relative_minutes_formatted = f"{relative_minutes}m"
+
+    print(f"creating digest since {relative_minutes_formatted}")
 
     asyncio.run(
         make_digests_from_config(str(DIGEST_YAML), since=relative_minutes_formatted)
@@ -56,8 +56,8 @@ def main(since: datetime.datetime, email_to, email_from, email_auth):
 @click.option(
     "--since",
     type=click.DateTime(formats=["%Y-%m-%d"]),
-    default=str(datetime.date.today() - datetime.timedelta(days=3)),
-    help="Date to pull notifications since in MM/DD/YYYY format",
+    help="Date to pull notifications since in YYYY-MM-DD format",
+    required=True,
 )
 @click.option("--email-to", help="Who to send the digest to", required=True)
 @click.option("--email-from", help="Who to send the digest from")
