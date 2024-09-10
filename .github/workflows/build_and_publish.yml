@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: cosq-network/dotenv-loader@v1
+      - uses: cosq-network/dotenv-loader@v1.0.2
         with:
           env-file: .env
 
