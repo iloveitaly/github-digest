@@ -808,13 +808,13 @@ profile = ["gprof2dot (>=2022.7.29)"]
 
 [[package]]
 name = "dinghy"
-version = "1.3.2"
+version = "1.3.3"
 description = "Dinghy daily digest tool"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "dinghy-1.3.2-py3-none-any.whl", hash = "sha256:fef6e81a6b43ad15f4a273c130adb3d9dd9af086f1c62e9e42bb1c937d18f6b8"},
-    {file = "dinghy-1.3.2.tar.gz", hash = "sha256:e289543509d8895457368adbb53f01ef11520610604a29b55e4ce7b61a580058"},
+    {file = "dinghy-1.3.3-py3-none-any.whl", hash = "sha256:3c26b336f227165b5385bfffb3486f716941ab57a6c4f2341f9da1f542b4254e"},
+    {file = "dinghy-1.3.3.tar.gz", hash = "sha256:99dfe51a5513e814c4be064c15509c876d926aaa74a6c3a7e20b527837f863b7"},
 ]
 
 [package.dependencies]
@@ -2008,4 +2008,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "46db5c3e596e4160dc70b076720f1c7e827d97cd5e587f021f6d77b65b6aa253"
+content-hash = "a0d6e6fea90eaf430c1b0a362ad1d0865f9ae2e61af4a331a28f7bc24bd9527b"
