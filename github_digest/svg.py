@@ -4,10 +4,14 @@ import requests
 from cairosvg import svg2png
 
 
-# https://jsfiddle.net/3kjfLog6/
-# http://stylecampaign.com/blog/2014/01/basics-of-svg-in-email/
-# https://stackoverflow.com/questions/37753911/how-can-i-embed-svg-into-html-in-an-email-so-that-its-visible-in-most-all-emai
 def svg_url_to_base64_png(svg_url, width=32, height=32, dpi=300):
+    """
+    SVG's don't render in email
+
+    - https://jsfiddle.net/3kjfLog6/
+    - http://stylecampaign.com/blog/2014/01/basics-of-svg-in-email/
+    - https://stackoverflow.com/questions/37753911/how-can-i-embed-svg-into-html-in-an-email-so-that-its-visible-in-most-all-emai
+    """
     response = requests.get(svg_url)
     response.raise_for_status()
 

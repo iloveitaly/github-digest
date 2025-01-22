@@ -12,7 +12,12 @@ digests:
         title: My PRs
 
       - search: -author:iloveitaly org:iloveitaly
-        title: PRs & Issues on Projects
+        title: My Projects PRs & Issues
+      
+      # this does *not* include issues you are subscribed to, but have not commented on
+      # https://stackoverflow.com/questions/64435858/how-to-search-github-issues-for-the-ones-youre-watching
+      - search: involves:iloveitaly -author:iloveitaly
+        title: Issues & PRs I'm Involved In
       
       # TODO maybe add resque? Other OS I care about?
       
@@ -20,4 +25,3 @@ digests:
 defaults:
   ignore_users:
     - dependabot[bot]
-    # - iloveitaly
