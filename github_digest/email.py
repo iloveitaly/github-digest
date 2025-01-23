@@ -22,7 +22,7 @@ def send_email(*, html_content, subject, email_to, email_from, email_auth):
     msg["Subject"] = subject
 
     logger.info(
-        "creating email for %s, from %s, content length %i",
+        "creating email for %s, from %s",
         email_to,
         parsed_url.username,
     )

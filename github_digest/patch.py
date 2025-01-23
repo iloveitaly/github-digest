@@ -1,4 +1,6 @@
 """
+TODO document how this works in obsidian
+
 https://github.com/nedbat/dinghy/blob/9d8136983a566304793e3e773c97e1ee5f9ae74c/src/dinghy/jinja_helpers.py#L53
 """
 

@@ -48,12 +48,20 @@ from datetime import datetime
 import os
 from github_digest import cli
 
-last_synced_raw = '2024-10-22 01:12:13.232395+00:00'
+last_synced_raw = '2025-01-01 01:12:13.232395+00:00'
 last_synced = datetime.fromisoformat(last_synced_raw)
 
+os.environ["GITHUB_DIGEST_GITHUB_USERNAME"] = "iloveitaly"
 os.environ["GITHUB_DIGEST_SINCE"] = last_synced.strftime("%Y-%m-%d")
 
 cli()
+```
+
+You can do this within a container as well:
+
+```bash
+pip install ipython
+ipython
 ```
 
 ## Deployment
@@ -63,6 +71,7 @@ command I used to help replicate the prod environment locally
 
 ```bash
 nixpacks build . --name github-digest-local --libs=cairo # you can play around with various config settings
+
 docker run --env GITHUB_TOKEN --env GITHUB_DIGEST_EMAIL_AUTH --env GITHUB_DIGEST_EMAIL_TO --env GITHUB_DIGEST_EMAIL_FROM -it github-digest-local:latest bash -l
 ```
 
