@@ -8,7 +8,7 @@ There's a nice docker image for deployment.
 
 ## How it works
 
-There's a [poorly-named-but-great tool named dinghy which summarizes github activity.](https://github.com/nedbat/dinghy)
+There's a [great tool named dinghy which summarizes github activity.](https://github.com/nedbat/dinghy)
 
 This project builds upon this library:
 
@@ -74,4 +74,3 @@ nixpacks build . --name github-digest-local --libs=cairo # you can play around w
 
 docker run --env GITHUB_TOKEN --env GITHUB_DIGEST_EMAIL_AUTH --env GITHUB_DIGEST_EMAIL_TO --env GITHUB_DIGEST_EMAIL_FROM -it github-digest-local:latest bash -l
 ```
-
