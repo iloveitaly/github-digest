@@ -3,12 +3,14 @@ import os
 
 from apscheduler.schedulers.background import BlockingScheduler
 from apscheduler.triggers.cron import CronTrigger
+from decouple import config
 
 from github_digest import cli
 from github_digest.internet import wait_for_internet_connection
 
 last_synced: datetime.datetime | None = None
 
+HEARTBEAT_URL = config("HEARTBEAT_URL", default=None)
 
 def get_initial_start_date():
     return datetime.datetime.now(datetime.UTC) - datetime.timedelta(days=3)
@@ -38,6 +40,14 @@ def job():
     handle_click_exit(cli)()
 
     last_synced = datetime.datetime.now()
+
+    if HEARTBEAT_URL:
+        import requests
+        
+        try:
+            requests.get(HEARTBEAT_URL)
+        except requests.exceptions.RequestException:
+            pass
 
 
 def cron():
