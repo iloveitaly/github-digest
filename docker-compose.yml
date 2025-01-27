@@ -7,6 +7,7 @@ services:
       - GITHUB_DIGEST_EMAIL_AUTH=smtp://resend:re_123@smtp.resend.com:123
       - GITHUB_DIGEST_EMAIL_TO=email@gmail.com
       - GITHUB_DIGEST_EMAIL_FROM=email@mikebian.co
+      - GITHUB_DIGEST_GITHUB_USERNAME=iloveitaly
       - SCHEDULE=0 7 * * *
       # the container will *not* assume the TZ of the host without this
       # make sure your host has this set
