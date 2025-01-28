@@ -5,7 +5,7 @@ Why? Because GitHub's notification system is a complete mess and unusable.
 This generates a nice email digest of all activity on your GitHub and sends it over email. Or, you could target any GitHub username to see
 what someone is up to and talking about.
 
-There's a nice docker image for deployment.
+There's a nice docker image for deployment. Set a `SCHEDULE` and an optional heartbeat for uptime checking, and get a digest on whatever cadence you want.
 
 ## How it works
 
