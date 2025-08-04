@@ -27,7 +27,7 @@ isort = "^6.0.1"
 black = "^25.1.0"
 pyright = "^1.1.403"
 pylint = "^3.3.7"
-deptry = "^0.23.0"
+deptry = "^0.23.1"
 
 [build-system]
 requires = ["poetry-core"]
