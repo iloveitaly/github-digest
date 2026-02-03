@@ -24,7 +24,7 @@ jinja2 = "^3.1.6"
 
 [tool.poetry.group.dev.dependencies]
 isort = "^7.0.0"
-black = "^25.12.0"
+black = "^26.1.0"
 pyright = "^1.1.408"
 pylint = "^4.0.4"
 deptry = "^0.24.0"
