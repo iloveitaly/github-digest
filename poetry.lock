@@ -1213,15 +1213,18 @@ files = [
 
 [[package]]
 name = "patchy"
-version = "2.10.0"
+version = "3.1.0"
 description = "Patch the inner source of python functions at runtime."
 optional = false
-python-versions = ">=3.9"
+python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "patchy-2.10.0-py3-none-any.whl", hash = "sha256:f5c13adee5db3eea36a702ae3ab95f24d2c62d28d3a2246cc2f329e2e3e0cd74"},
-    {file = "patchy-2.10.0.tar.gz", hash = "sha256:e7dc3610d20b8ce30af2ddbfa4a1ed67f066269fa6b10094f16dc798b80119da"},
+    {file = "patchy-3.1.0-py3-none-any.whl", hash = "sha256:5b09087bdb5fa7ed27a2b54a49dd19fd201442bdd01da378970d168b28aefc48"},
+    {file = "patchy-3.1.0.tar.gz", hash = "sha256:e75610e820d179ef646bfee4ccb5ae2cbfdaf6940e9946ce7b715dc544aa8e50"},
 ]
+
+[package.dependencies]
+unipatch = "*"
 
 [[package]]
 name = "pathspec"
@@ -1507,7 +1510,7 @@ files = [
 astroid = ">=4.0.2,<=4.1.dev0"
 colorama = {version = ">=0.4.5", markers = "sys_platform == \"win32\""}
 dill = [
-    {version = ">=0.3.6", markers = "python_version >= \"3.11\""},
+    {version = ">=0.3.6", markers = "python_version == \"3.11\""},
     {version = ">=0.3.7", markers = "python_version >= \"3.12\""},
 ]
 isort = ">=5,<5.13 || >5.13,<10"
@@ -1891,6 +1894,18 @@ tzdata = {version = "*", markers = "platform_system == \"Windows\""}
 devenv = ["check-manifest", "pytest (>=4.3)", "pytest-cov", "pytest-mock (>=3.3)", "zest.releaser"]
 
 [[package]]
+name = "unipatch"
+version = "1.0.0"
+description = "Apply unified diffs in memory, compatible with GNU patch."
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "unipatch-1.0.0-py3-none-any.whl", hash = "sha256:195ac3110766c744e029239aba82b287041fc9fd703b062e6574cc9681f1b6c9"},
+    {file = "unipatch-1.0.0.tar.gz", hash = "sha256:993df2fe49f8114a95eaaf088ecf498c0dd20a8387caa17d63e8d1c29ea50af1"},
+]
+
+[[package]]
 name = "urllib3"
 version = "2.3.0"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
@@ -2020,4 +2035,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.11"
-content-hash = "52b7e1897371a03e56243865eb3857b0b38a2afdb444dc877ec5e0461c3b0b90"
+content-hash = "b09a2cad67e90bb3c44a9ba66c5dfd11fc1253005a184530e19b309997a681f3"
